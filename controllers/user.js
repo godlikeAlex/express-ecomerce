@@ -35,3 +35,15 @@ exports.signin = (req, res) => {
         return res.status(200).json({token, user: {_id, name, email, role}});
     })
 };
+
+exports.signout = (req, res) => {
+    res.clearCookie('t');
+    res.json({message: 'Sign out success'});
+};
+
+exports.requireSignIn = expressjwt({
+    'secret': process.env.JWt_SECRET,
+    'userProperty': "auth"
+});
+
+
