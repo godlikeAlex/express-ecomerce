@@ -42,7 +42,7 @@ exports.signout = (req, res) => {
 };
 
 exports.requireSignIn = expressjwt({
-    'secret': process.env.JWt_SECRET,
+    'secret': process.env.JWT_SECRET,
     'userProperty': "auth"
 });
 

@@ -9,7 +9,7 @@ require('dotenv').config();
 
 // Routes
 const authRoutes = require('./routes/auth');
-
+const userRoutes = require('./routes/user');
 
 // Database Connection
 mongoose.connect(process.env.DATABASE, {
@@ -28,6 +28,7 @@ app.use(expressValidator());
 
 // Routes
 app.use('/api', authRoutes);
+app.use('/api', userRoutes);
 
 const port = process.env.PORT || 3030;
 
