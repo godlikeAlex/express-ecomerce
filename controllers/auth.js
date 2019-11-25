@@ -1,10 +1,10 @@
-const User = require('../models/user');
+const Auth = require('../models/user');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.signup = (req, res) => {
-    const createdUser = new User(req.body);
+    const createdUser = new Auth(req.body);
     createdUser.save()
         .then(user => {
             user.salt = undefined;
@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
     const {email, password} = req.body;
 
-    User.findOne({email}, (err, user) => {
+    Auth.findOne({email}, (err, user) => {
         if(err && !user) {
             return res.status(400).json({error: `User with email - ${email} not found.`});
         }

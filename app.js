@@ -8,7 +8,7 @@ const expressValidator = require('express-validator');
 require('dotenv').config();
 
 // Routes
-const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
 
 
 // Database Connection
@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 // Routes
-app.use('/api', userRoutes);
+app.use('/api', authRoutes);
 
 const port = process.env.PORT || 3030;
 
