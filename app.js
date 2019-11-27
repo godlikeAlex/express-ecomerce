@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE, {
     .then(() => console.log('Database success connected.'))
     .catch(() => console.error('Error to connect to database.'));
 
-// Middlewares
+// Midd     lewares
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
