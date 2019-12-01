@@ -8,11 +8,21 @@ exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
-        if(err) return req.status(400).json({err: "Image cloud not be uploaded"});
+        if(err) return res.status(400).json({err: "Image cloud not be uploaded"});
+
+        const { name, description, price, category, shipping, quantity, photo } = fields;
+
+        if(!name || !description || !price || !category || !shipping || !quantity) {
+            return res.status(400).json({err: "Missing required fields."});
+        }
 
         const createdProduct = new Product(fields);
         if(files.photo) {
+            if(files.photo.size > 300000) {
+                return  res.status(400).json({err: "Image should be less then 1mb."});
+            }
             createdProduct.photo.data = fs.readFileSync(files.photo.path);
+            console.log(files.photo.path);
             createdProduct.photo.contentType = files.photo.type;
         }
         createdProduct.save()
