@@ -7,7 +7,7 @@ const errorHandler = require('../helpers/dbErrorHandler');
 exports.productById = (req, res, next, id) => {
   Product.findById(id).exec((err, product) => {
         if (err || !product) {
-          return res.status(404).json({err: 'Required user not found.'});
+          return res.status(404).json({err: 'Required product not found.'});
         }
         req.product = product;
         next();
@@ -44,4 +44,11 @@ exports.create = (req, res) => {
             .then(data => { return res.status(200).json(createdProduct) })
             .catch(err => { return res.json(400).json({err: errorHandler(err)}) })
     });
+};
+
+exports.remove = (req, res) => {
+    const product = req.product;
+    product.remove()
+        .then(() => res.status(200).json({message: "Product deleted"}))
+        .catch(err => res.status(400).json({err: errorHandler(err)}));
 };
