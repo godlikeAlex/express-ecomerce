@@ -81,3 +81,30 @@ exports.remove = (req, res) => {
         .then(() => res.status(200).json({message: "Product deleted"}))
         .catch(err => res.status(400).json({err: errorHandler(err)}));
 };
+
+/**
+ *  sell / arrival
+ *  by sold = /products?sortBy=sold&order=desc&limit=number
+ *  by arrival = /products?sortBy=createdAt&order=desc&limit=number
+ *  if params not sent, then all products are returned.
+ */
+
+exports.list = (req, res) => {
+    let order = req.query.order ? req.query.order : 'desc';
+    let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+    let limit = req.query.limit ? req.query.limit : 8;
+
+    Product.find()
+        .select('-photo')
+        .populate('category')
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .exec((err, data) => {
+            if(err && !data) {
+                return res.status(400).json({err: 'Products not found'});
+            }
+
+            return res.status(200).send(data);
+        });
+};
+
