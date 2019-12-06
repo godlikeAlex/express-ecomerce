@@ -92,7 +92,7 @@ exports.remove = (req, res) => {
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'desc';
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-    let limit = req.query.limit ? req.query.limit : 8;
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
 
     Product.find()
         .select('-photo')
@@ -106,5 +106,24 @@ exports.list = (req, res) => {
 
             return res.status(200).send(data);
         });
+};
+
+/**
+ * it will find the products based on the req product category
+ * other products that has the same category, will be returned
+ */
+
+exports.listRelated = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+
+    Product.find({_id: {$ne: req.product}, category: req.product.category})
+        .limit(limit)
+        .populate('category', '_id name')
+        .exec((err, products) => {
+            if(err) {
+                return res.status(404).json({err: 'Products not fond'});
+            }
+            return res.status(200).json(products);
+        })
 };
 
