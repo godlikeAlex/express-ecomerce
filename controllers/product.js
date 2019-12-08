@@ -168,3 +168,11 @@ exports.listBySearch = (req, res) => {
         .then(products => {return res.status(200).json({size:products.length, products})})
         .catch(err => {return res.status(400).json({err: errorHandler(err)})});
 };
+
+exports.productPhoto = (req, res, next) => {
+    if(req.product.photo.data) {
+        res.set('Content-Type', req.product.photo.contentType);
+        return res.send(req.product.photo.data);
+    }
+    next();
+};
