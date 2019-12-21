@@ -11,7 +11,7 @@ exports.signup = (req, res) => {
             user.hashed_password = undefined;
             res.status(200).json(user);
         })
-        .catch(error => res.status(400).json({error: errorHandler(error)}));
+        .catch(error => res.status(400).json({err: errorHandler(error)}));
 };
 
 exports.signin = (req, res) => {
@@ -19,12 +19,12 @@ exports.signin = (req, res) => {
 
     Auth.findOne({email}, (err, user) => {
         if(err && !user) {
-            return res.status(400).json({error: `User with email - ${email} not found.`});
+            return res.status(400).json({err: `User with email - ${email} not found.`});
         }
 
         if(!user.authenticate(password)) {
             return res.status(401).json({
-                error: 'Email and password dont match'
+                err: 'Email and password dont match'
             })
         }
 

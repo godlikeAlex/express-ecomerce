@@ -21,6 +21,7 @@ exports.read = (req, res) => {
 
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
+    console.log(req.body);
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
         if(err) return res.status(400).json({err: "Image cloud not be uploaded"});
@@ -175,4 +176,24 @@ exports.productPhoto = (req, res, next) => {
         return res.send(req.product.photo.data);
     }
     next();
+};
+
+exports.listSearch = (req, res) => {
+    const query = {};
+
+    if(req.query.search) {
+        query.name = {$regex: req.query.search, $options: 'i'};
+
+        if(req.query.category && req.query.category != 'All') {
+            query.category = req.query.category;
+        }
+
+        Product.find(query, (err, products) => {
+            if(err) {
+                return res.status(404).json({err: 'Products not fond'});
+            }
+
+            res.json(products);
+        }).select('-photo')
+    }
 };

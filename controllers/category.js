@@ -13,9 +13,13 @@ exports.categoryById = (req, res, next, id) => {
 
 exports.createCategory = (req, res) => {
     const category = new Category(req.body);
-    category.save()
-        .then(data => res.status(200).json({data}))
-        .catch(err => res.status(400).json({"err": errorHandler(err)}));
+    category.save((err, data) => {
+        if(err) {
+            return res.status(400).json({"err": errorHandler(err)})
+        }
+
+        return res.status(200).json({data})
+    });
 };
 
 exports.update = (req, res) => {
