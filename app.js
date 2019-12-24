@@ -13,6 +13,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
+const brainTreeRoutes = require('./routes/braintree');
 
 // Database Connection
 mongoose.connect(process.env.DATABASE, {
@@ -35,6 +36,7 @@ app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
+app.use('/api', brainTreeRoutes);
 
 const port = process.env.PORT || 3030;
 
