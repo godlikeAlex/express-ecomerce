@@ -18,3 +18,22 @@ exports.generateToken = (req, res) => {
         }
     })
 };
+
+exports.processPayment = (req, res) => {
+    let nonceFromTheClint = req.body.paymentMethodNonce;
+    let amountFromTheClient = req.body.amount;
+
+    let newTransaction = geteway.transaction.sale({
+        amount: amountFromTheClient,
+        paymentMethodNonce: nonceFromTheClint,
+        options: {
+            submitForSettlement: true
+        }
+    }, (err, data) => {
+        if(err) {
+            res.status(500).send({err})
+        } else {
+            res.send(data);
+        }
+    });
+};

@@ -2,9 +2,10 @@ const express = require('express');
 const router  = express.Router();
 const { requireSignIn, isAuth }   = require('../controllers/auth');
 const { userById } = require('../controllers/user');
-const { generateToken } = require('../controllers/braintree');
+const { generateToken, processPayment } = require('../controllers/braintree');
 
 router.get('/braintree/token/:userId', requireSignIn, isAuth, generateToken);
+router.post('/braintree/payment/:userId', requireSignIn, isAuth, processPayment);
 router.param('userId', userById);
 
 module.exports = router;
