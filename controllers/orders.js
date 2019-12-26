@@ -1,3 +1,3 @@
-exports.create = (req, res) => {
-    return req.body;
+exports.createOrder = (req, res) => {
+   console.log(req.body);
 };
