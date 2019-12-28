@@ -12,3 +12,16 @@ exports.createOrder = (req, res) => {
       return res.json(data);
    });
 };
+
+exports.listOrders = (req, res) => {
+   Order.find()
+       .populate('user', '_id name address')
+       .sortBy('-created')
+       .exec((err, orders) => {
+          if(err) {
+             return res.status(400).json({err: errorHandler(err)});
+          }
+
+          res.json(orders);
+       })
+};
