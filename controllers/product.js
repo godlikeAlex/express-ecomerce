@@ -93,7 +93,7 @@ exports.remove = (req, res) => {
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'desc';
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-    let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+    let limit = req.query.limit ? parseInt(req.query.limit) : null;
 
     Product.find()
         .select('-photo')
