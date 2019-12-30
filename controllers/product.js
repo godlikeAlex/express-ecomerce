@@ -53,12 +53,6 @@ exports.update = (req, res) => {
     form.parse(req, (err, fields, files) => {
         if(err) return res.status(400).json({err: "Something went wrong"});
 
-        const { name, description, price, category, shipping, quantity, photo } = fields;
-
-        if(!name || !description || !price || !category || !shipping || !quantity) {
-            return res.status(400).json({err: "Missing required fields."});
-        }
-
         let createdProduct = req.product;
         createdProduct = _.extend(createdProduct, fields);
 
